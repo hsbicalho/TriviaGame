@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchToken } from './Services/FetchToken';
 
 class Login extends Component {
   constructor() {
@@ -23,6 +25,11 @@ class Login extends Component {
       this.setState({
         isButtonDisabled: !isInputTrue,
       });
+    }
+
+    handlePlayClick = async () => {
+      const { token } = await fetchToken();
+      localStorage.setItem('token', token);
     }
 
     render() {
@@ -50,13 +57,18 @@ class Login extends Component {
               onChange={ this.handleInputChange }
             />
           </label>
-          <button
-            type="button"
-            disabled={ isButtonDisabled }
-            data-testid="btn-play"
+          <Link
+            to="/jogo"
           >
-            Play
-          </button>
+            <button
+              type="button"
+              disabled={ isButtonDisabled }
+              data-testid="btn-play"
+              onClick={ this.handlePlayClick }
+            >
+              Play
+            </button>
+          </Link>
         </>
       );
     }
