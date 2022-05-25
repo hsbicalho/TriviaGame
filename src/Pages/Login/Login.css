@@ -4,11 +4,11 @@ body {
     padding: 0;
   }
   
-  .Login-page {
+  .login-page {
     text-align: center;
   }
   
-  .Login-page-logo {
+  .login-page-logo {
     height: 15vmin;
     pointer-events: none;
   }
@@ -23,12 +23,12 @@ body {
   
   @media ( prefers-reduced-motion : no-preference ) {
   
-    .Login-page-logo {
+    .login-page-logo {
       animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     }
   }
   
-  .Login-page-header {
+  .login-page-header {
     align-items: center;
     background-color: #282c34;
     color: white;
@@ -39,7 +39,7 @@ body {
     min-height: 100vh;
   }
   
-  .Login-page-link {
+  .login-page-link {
     color: #61dafb;
   }
   
