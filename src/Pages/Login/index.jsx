@@ -38,9 +38,9 @@ class Login extends Component {
       const { userName, userEmail, isButtonDisabled } = this.state;
       return (
         <div
-          className="App"
+          className="Login-page"
         >
-          <header className="App-header">
+          <header className="Login-page-header">
             <img src={ logo } className="App-logo" alt="logo" />
             Login
             <label htmlFor="input-player-name">
