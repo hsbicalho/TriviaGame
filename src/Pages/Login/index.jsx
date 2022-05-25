@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchToken } from './Services/FetchToken';
+import { fetchToken } from '../../Services/FetchToken';
 
 class Login extends Component {
   constructor() {
@@ -67,6 +67,16 @@ class Login extends Component {
               onClick={ this.handlePlayClick }
             >
               Play
+            </button>
+          </Link>
+          <Link
+            to="/configuracao"
+          >
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              Settings
             </button>
           </Link>
         </>
