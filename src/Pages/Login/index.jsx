@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../trivia.png';
+import './Login.css';
 import { fetchToken } from '../../Services/FetchToken';
 
 class Login extends Component {
@@ -35,51 +37,56 @@ class Login extends Component {
     render() {
       const { userName, userEmail, isButtonDisabled } = this.state;
       return (
-        <>
-          Login
-          <label htmlFor="input-player-name">
-            Name:
-            <input
-              type="text"
-              name="userName"
-              data-testid="input-player-name"
-              value={ userName }
-              onChange={ this.handleInputChange }
-            />
-          </label>
-          <label htmlFor="input-gravatar-email">
-            E-mail:
-            <input
-              type="email"
-              name="userEmail"
-              data-testid="input-gravatar-email"
-              value={ userEmail }
-              onChange={ this.handleInputChange }
-            />
-          </label>
-          <Link
-            to="/jogo"
-          >
-            <button
-              type="button"
-              disabled={ isButtonDisabled }
-              data-testid="btn-play"
-              onClick={ this.handlePlayClick }
+        <div
+          className="App"
+        >
+          <header className="App-header">
+            <img src={ logo } className="App-logo" alt="logo" />
+            Login
+            <label htmlFor="input-player-name">
+              Name:
+              <input
+                type="text"
+                name="userName"
+                data-testid="input-player-name"
+                value={ userName }
+                onChange={ this.handleInputChange }
+              />
+            </label>
+            <label htmlFor="input-gravatar-email">
+              E-mail:
+              <input
+                type="email"
+                name="userEmail"
+                data-testid="input-gravatar-email"
+                value={ userEmail }
+                onChange={ this.handleInputChange }
+              />
+            </label>
+            <Link
+              to="/jogo"
             >
-              Play
-            </button>
-          </Link>
-          <Link
-            to="/configuracao"
-          >
-            <button
-              type="button"
-              data-testid="btn-settings"
+              <button
+                type="button"
+                disabled={ isButtonDisabled }
+                data-testid="btn-play"
+                onClick={ this.handlePlayClick }
+              >
+                Play
+              </button>
+            </Link>
+            <Link
+              to="/configuracao"
             >
-              Settings
-            </button>
-          </Link>
-        </>
+              <button
+                type="button"
+                data-testid="btn-settings"
+              >
+                Settings
+              </button>
+            </Link>
+          </header>
+        </div>
       );
     }
 }
