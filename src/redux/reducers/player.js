@@ -1,6 +1,8 @@
+import { LOGIN } from '../actions';
+
 const INITIAL_STATE = {
   userName: '',
-  email: '',
+  userEmail: '',
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {

@@ -1,8 +1,8 @@
 export const LOGIN = 'LOGIN';
-export const setUser = (email, userName) => ({
+export const setPlayer = (userEmail, userName) => ({
   type: LOGIN,
   payload: {
-    email,
+    userEmail,
     userName,
   },
 });
