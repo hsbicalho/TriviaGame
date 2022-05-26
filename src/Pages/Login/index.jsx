@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import logo from '../../trivia.png';
 import './Login.css';
 import { fetchToken } from '../../Services/FetchToken';
+import { setPlayer } from '../../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -32,6 +35,8 @@ class Login extends Component {
     handlePlayClick = async () => {
       const { token } = await fetchToken();
       localStorage.setItem('token', token);
+      const { logUser } = this.props;
+      logUser(this.state);
     }
 
     render() {
@@ -90,4 +95,13 @@ class Login extends Component {
       );
     }
 }
-export default Login;
+
+Login.propTypes = {
+  logUser: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  logUser: ({ userEmail, userName }) => dispatch(setPlayer(userEmail, userName)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../../components/Header';
 import './Jogo.css';
 
 export default class Jogo extends Component {
@@ -7,9 +8,7 @@ export default class Jogo extends Component {
       <div
         className="jogo-page"
       >
-        <header className="jogo-page-header">
-          Jogo
-        </header>
+        <Header />
       </div>
     );
   }
