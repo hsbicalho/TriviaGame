@@ -3,6 +3,6 @@ export const setPlayer = (userEmail, userName) => ({
   type: LOGIN,
   payload: {
     name: userName,
-    email: userEmail,
+    gravatarEmail: userEmail,
   },
 });
