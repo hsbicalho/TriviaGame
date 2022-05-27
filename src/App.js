@@ -9,10 +9,9 @@ import Configuracao from './Pages/Configuracao';
 export default function App() {
   return (
     <Switch>
-      <Route exact path="/" render={ () => <Login /> } />
-      <Route path="/jogo" render={ () => <Jogo /> } />
-      <Route path="/configuracao" render={ () => <Configuracao /> } />
-
+      <Route exact path="/" component={ Login } />
+      <Route path="/jogo" component={ Jogo } />
+      <Route path="/configuracao" component={ Configuracao } />
     </Switch>
   );
 }

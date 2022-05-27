@@ -1,59 +1,56 @@
 import React, { Component } from 'react';
-import PropTypes, { string } from 'prop-types';
+import PropTypes from 'prop-types';
 
 class CardPergunta extends Component {
-  constructor() {
-    super();
-    this.state = {
-      questsArray: [],
-    };
-  }
-
-  componentDidMount() {
-    const { objPergunta: { correct_answer: correctAnswer,
-      incorrect_answers: incorrectAnswers } } = this.props;
-    const allQuests = [correctAnswer, ...incorrectAnswers];
-    const randNumb = 0.5;
-    allQuests.sort(() => Math.random() - randNumb);
-    this.setState({ questsArray: allQuests });
-  }
-
   render() {
-    const { objPergunta: { correct_answer: correctAnswer } } = this.props;
-    const { questsArray } = this.state;
-
+    const { options, position,
+      questObj: { category, question: title, correct_answer: correctAns } } = this.props;
     return (
-      <div data-testid="answer-options">
-        {questsArray.map((option, index) => {
-          if (option === correctAnswer) {
-            return (
+      <div>
+        <h2 data-testid="question-category">{category}</h2>
+        <section>
+          <h2 data-testid="question-text">{title}</h2>
+          <div data-testid="answer-options">
+            {options.map((option, index) => (
               <button
                 type="button"
-                key="correctAnswer"
-                data-testid="correct-answer"
-                id="CORRETA_RESPOSTA"
+                key={ index }
+                data-testid={ option === correctAns
+                  ? 'correct-answer' : `wrong-answer-${position}` }
               >
                 {option}
-              </button>);
-          }
-          return (
-            <button
-              type="button"
-              data-testid={ `wrong-answer-${index}` }
-              key={ Math.random() }
-            >
-              {option}
-            </button>);
-        })}
+              </button>
+            ))}
+          </div>
+        </section>
       </div>
     );
   }
 }
 
 CardPergunta.propTypes = {
-  correct_answer: PropTypes.string.isRequired,
-  incorrect_answers: PropTypes.arrayOf(string).isRequired,
-  objPergunta: PropTypes.objectOf().isRequired,
+  questObj: PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    correct_answer: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    incorrect_answers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  position: PropTypes.number.isRequired,
 };
 
 export default CardPergunta;
+
+// componentDidMount() {
+//   const { questObj: { question } } = this.props;
+//   // Ref: https://stackoverflow.com/questions/43011224/how-to-convert-string-with-039-convert-to-standard-charater
+//   const newTitle = question.replace(/&amp;/g, '&')
+//     .replace(/&lt;/g, '<')
+//     .replace(/&gt;/g, '>')
+//     .replace(/&quot;/g, '"')
+//     .replace(/&#039;/g, '\'');
+//   this.setState({ title: newTitle });
+//   this.shuffleOptions();
+// }

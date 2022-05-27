@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { fetchToken } from '../../Services/FetchToken';
 
 class Login extends Component {
@@ -28,8 +29,10 @@ class Login extends Component {
     }
 
     handlePlayClick = async () => {
+      const { history } = this.props;
       const { token } = await fetchToken();
       localStorage.setItem('token', token);
+      history.push('/jogo');
     }
 
     render() {
@@ -57,18 +60,14 @@ class Login extends Component {
               onChange={ this.handleInputChange }
             />
           </label>
-          <Link
-            to="/jogo"
+          <button
+            type="button"
+            disabled={ isButtonDisabled }
+            data-testid="btn-play"
+            onClick={ this.handlePlayClick }
           >
-            <button
-              type="button"
-              disabled={ isButtonDisabled }
-              data-testid="btn-play"
-              onClick={ this.handlePlayClick }
-            >
-              Play
-            </button>
-          </Link>
+            Play
+          </button>
           <Link
             to="/configuracao"
           >
@@ -83,4 +82,9 @@ class Login extends Component {
       );
     }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape().isRequired,
+};
+
 export default Login;
