@@ -1,8 +1,6 @@
 .buttonOpt {
   border: none;
   padding: 1rem;
-  margin-right: 10px;
-  background-color: gray;
 }
 
 .buttonOpt:hover {
