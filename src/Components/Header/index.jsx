@@ -12,7 +12,7 @@ class Header extends Component {
 
   render() {
     const { name, score, email } = this.props;
-    const imgUrl = convertEmailHash(email);
+    const imgUrl = this.convertEmailHash(email);
     return (
       <header>
         <img
@@ -36,7 +36,7 @@ const mapStateToProps = ({ player }) => ({
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
-  score: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
 };
 

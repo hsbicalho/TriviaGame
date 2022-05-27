@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import logo from '../../trivia.png';
+import './Login.css';
 import { fetchToken } from '../../Services/FetchToken';
+import { setPlayer } from '../../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -38,47 +42,52 @@ class Login extends Component {
     render() {
       const { userName, userEmail, isButtonDisabled } = this.state;
       return (
-        <>
-          Login
-          <label htmlFor="input-player-name">
-            Name:
-            <input
-              type="text"
-              name="userName"
-              data-testid="input-player-name"
-              value={ userName }
-              onChange={ this.handleInputChange }
-            />
-          </label>
-          <label htmlFor="input-gravatar-email">
-            E-mail:
-            <input
-              type="email"
-              name="userEmail"
-              data-testid="input-gravatar-email"
-              value={ userEmail }
-              onChange={ this.handleInputChange }
-            />
-          </label>
-          <button
-            type="button"
-            disabled={ isButtonDisabled }
-            data-testid="btn-play"
-            onClick={ this.handlePlayClick }
-          >
-            Play
-          </button>
-          <Link
-            to="/configuracao"
-          >
+        <div
+          className="login-page"
+        >
+          <header className="login-page-header">
+            <img src={ logo } className="App-logo" alt="logo" />
+            Login
+            <label htmlFor="input-player-name">
+              Name:
+              <input
+                type="text"
+                name="userName"
+                data-testid="input-player-name"
+                value={ userName }
+                onChange={ this.handleInputChange }
+              />
+            </label>
+            <label htmlFor="input-gravatar-email">
+              E-mail:
+              <input
+                type="email"
+                name="userEmail"
+                data-testid="input-gravatar-email"
+                value={ userEmail }
+                onChange={ this.handleInputChange }
+              />
+            </label>
             <button
               type="button"
-              data-testid="btn-settings"
+              disabled={ isButtonDisabled }
+              data-testid="btn-play"
+              onClick={ this.handlePlayClick }
             >
-              Settings
+              Play
             </button>
-          </Link>
-        </>
+            <Link
+              to="/configuracao"
+            >
+              <button
+                type="button"
+                data-testid="btn-settings"
+              >
+                Settings
+              </button>
+            </Link>
+          </header>
+        </div>
       );
     }
 }
@@ -87,4 +96,8 @@ Login.propTypes = {
   history: PropTypes.shape().isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  logUser: ({ userEmail, userName }) => dispatch(setPlayer(userEmail, userName)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
