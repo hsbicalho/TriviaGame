@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import CardPergunta from '../../Components/CardPergunta';
-// import Header from '../../Components/Header';
+import Header from '../../Components/Header';
 
 class Jogo extends Component {
   constructor() {
@@ -18,7 +18,8 @@ class Jogo extends Component {
     const { history } = this.props;
     const logoutCode = 3;
     const userToken = localStorage.getItem('token');
-    const randNum = 0.5;
+    const min = 0.5;
+    const negative = -1;
 
     try {
       const firstRequest = await fetch(`https://opentdb.com/api.php?amount=5&token=${userToken}`);
@@ -33,7 +34,7 @@ class Jogo extends Component {
         correct_answer: corAnswer,
         incorrect_answers: incAnswer }) => ([
         ...incAnswer, corAnswer,
-      ].sort(() => Math.random() - randNum)));
+      ].sort(() => (Math.random() > min ? 1 : negative))));
 
       this.setState({
         triviaQuests: result.results,
@@ -55,6 +56,7 @@ class Jogo extends Component {
     const { triviaQuests, qstIndex, triviaOptions, validToken } = this.state;
     return (
       <div>
+        <Header />
         {validToken ? (<CardPergunta
           questObj={ triviaQuests[qstIndex] }
           options={ triviaOptions[qstIndex] }

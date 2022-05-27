@@ -1,0 +1,18 @@
+.buttonOpt {
+  border: none;
+  padding: 1rem;
+  margin-right: 10px;
+  background-color: gray;
+}
+
+.buttonOpt:hover {
+  cursor: pointer;
+}
+
+.correctOpt {
+  border : 3px solid rgb(6, 240, 15);
+}
+
+.wrongOpt {
+  border: 3px solid red;
+}

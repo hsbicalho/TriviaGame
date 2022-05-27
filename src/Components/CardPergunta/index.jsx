@@ -1,10 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './CardPergunta.css';
 
 class CardPergunta extends Component {
+  constructor() {
+    super();
+    this.state = {
+      correctAnsClass: 'buttonOpt',
+      wrongAnsClass: 'buttonOpt',
+    };
+  }
+
+  handleclick = () => {
+    this.setState({
+      correctAnsClass: 'buttonOpt correctOpt',
+      wrongAnsClass: 'buttonOpt wrongOpt',
+    });
+  }
+
   render() {
     const { options, position,
       questObj: { category, question: title, correct_answer: correctAns } } = this.props;
+    const { correctAnsClass, wrongAnsClass } = this.state;
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
@@ -17,6 +34,9 @@ class CardPergunta extends Component {
                 key={ index }
                 data-testid={ option === correctAns
                   ? 'correct-answer' : `wrong-answer-${position}` }
+                className={ option === correctAns
+                  ? correctAnsClass : wrongAnsClass }
+                onClick={ this.handleclick }
               >
                 {option}
               </button>
