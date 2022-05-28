@@ -33,10 +33,10 @@ class Login extends Component {
     }
 
     handlePlayClick = async () => {
+      const { history } = this.props;
       const { token } = await fetchToken();
       localStorage.setItem('token', token);
-      const { logUser } = this.props;
-      logUser(this.state);
+      history.push('/jogo');
     }
 
     render() {
@@ -68,18 +68,14 @@ class Login extends Component {
                 onChange={ this.handleInputChange }
               />
             </label>
-            <Link
-              to="/jogo"
+            <button
+              type="button"
+              disabled={ isButtonDisabled }
+              data-testid="btn-play"
+              onClick={ this.handlePlayClick }
             >
-              <button
-                type="button"
-                disabled={ isButtonDisabled }
-                data-testid="btn-play"
-                onClick={ this.handlePlayClick }
-              >
-                Play
-              </button>
-            </Link>
+              Play
+            </button>
             <Link
               to="/configuracao"
             >
@@ -97,7 +93,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  logUser: PropTypes.func.isRequired,
+  history: PropTypes.shape().isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
