@@ -61,6 +61,7 @@ class Jogo extends Component {
           questObj={ triviaQuests[qstIndex] }
           options={ triviaOptions[qstIndex] }
           position={ qstIndex }
+          nextQuestion={ this.incIndex }
         />) : ''}
       </div>
     );

@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import './CardPergunta.css';
 
 class CardPergunta extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       correctAnsClass: 'buttonOpt',
       wrongAnsClass: 'buttonOpt',
       count: 30,
       disabled: false,
+      nextButton: false,
     };
   }
 
@@ -35,6 +36,7 @@ class CardPergunta extends Component {
     this.setState({
       correctAnsClass: 'buttonOpt correctOpt',
       wrongAnsClass: 'buttonOpt wrongOpt',
+      nextButton: true,
     });
     this.stopCount();
   }
@@ -45,10 +47,20 @@ class CardPergunta extends Component {
     this.setState({ count: 0 });
   }
 
+  handleNextClick = () => {
+    const { nextQuestion } = this.props;
+    nextQuestion();
+    this.setState({
+      correctAnsClass: 'buttonOpt',
+      wrongAnsClass: 'buttonOpt',
+      nextButton: false,
+    });
+  }
+
   render() {
     const { options, position,
       questObj: { category, question: title, correct_answer: correctAns } } = this.props;
-    const { correctAnsClass, wrongAnsClass, count, disabled } = this.state;
+    const { correctAnsClass, wrongAnsClass, nextButton, count, disabled } = this.state;
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
@@ -71,6 +83,15 @@ class CardPergunta extends Component {
             ))}
           </div>
           <span>{ count }</span>
+          {nextButton && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.handleNextClick }
+            >
+              next
+            </button>
+          )}
         </section>
       </div>
     );
@@ -88,6 +109,7 @@ CardPergunta.propTypes = {
   }).isRequired,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   position: PropTypes.number.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
 };
 
 export default CardPergunta;
