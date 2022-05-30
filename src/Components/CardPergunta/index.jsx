@@ -8,7 +8,27 @@ class CardPergunta extends Component {
     this.state = {
       correctAnsClass: 'buttonOpt',
       wrongAnsClass: 'buttonOpt',
+      count: 30,
+      disabled: false,
     };
+  }
+
+  componentDidMount() {
+    const oneSecond = 1000;
+    this.updateTimer = setInterval(() => {
+      const { count } = this.state;
+      this.setState({ count: count - 1 });
+    }, oneSecond);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { count } = this.state;
+    if (!prevState.disabled && !count) {
+      this.setState({ disabled: true });
+    }
+    if (count === 0) {
+      clearInterval(this.updateTimer);
+    }
   }
 
   handleclick = () => {
@@ -16,12 +36,19 @@ class CardPergunta extends Component {
       correctAnsClass: 'buttonOpt correctOpt',
       wrongAnsClass: 'buttonOpt wrongOpt',
     });
+    this.stopCount();
+  }
+
+  stopCount = () => {
+    const { count } = this.state;
+    console.log(count);
+    this.setState({ count: 0 });
   }
 
   render() {
     const { options, position,
       questObj: { category, question: title, correct_answer: correctAns } } = this.props;
-    const { correctAnsClass, wrongAnsClass } = this.state;
+    const { correctAnsClass, wrongAnsClass, count, disabled } = this.state;
     return (
       <div>
         <h2 data-testid="question-category">{category}</h2>
@@ -37,11 +64,13 @@ class CardPergunta extends Component {
                 className={ option === correctAns
                   ? correctAnsClass : wrongAnsClass }
                 onClick={ this.handleclick }
+                disabled={ disabled }
               >
                 {option}
               </button>
             ))}
           </div>
+          <span>{ count }</span>
         </section>
       </div>
     );
