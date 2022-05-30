@@ -36,6 +36,8 @@ class Login extends Component {
       const { history } = this.props;
       const { token } = await fetchToken();
       localStorage.setItem('token', token);
+      const { logUser } = this.props;
+      logUser(this.state);
       history.push('/jogo');
     }
 
@@ -94,6 +96,7 @@ class Login extends Component {
 
 Login.propTypes = {
   history: PropTypes.shape().isRequired,
+  logUser: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
