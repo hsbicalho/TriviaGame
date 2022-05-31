@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './CardPergunta.css';
 import { connect } from 'react-redux';
 import calcScore from '../../Services/CalculateScore';
-import { playerScore } from '../../redux/actions';
+import { playerScore, setHit } from '../../redux/actions';
 
 class CardPergunta extends Component {
   constructor(props) {
@@ -17,6 +17,8 @@ class CardPergunta extends Component {
       disabled: false,
       nextButton: false,
       difficulty,
+      sumScore: 0,
+      sumHits: 0,
     };
   }
 
@@ -46,11 +48,25 @@ class CardPergunta extends Component {
     }, () => this.stopCount(target.className));
   }
 
-  stopCount = (optionClass) => {
-    const { updateScore } = this.props;
-    const { count, difficulty } = this.state;
-    if (optionClass === 'buttonOpt correctOpt') updateScore(calcScore(difficulty, count));
-    this.setState({ count: 0 });
+  tempFunc = () => {
+    const { difficulty, count, sumHits } = this.state;
+    const { incHits } = this.props;
+    const newScore = calcScore(difficulty, count);
+    this.setState((prevState) => ({
+      sumScore: prevState.sumScore + newScore,
+      sumHits: prevState.sumHits + 1,
+    }), () => incHits(sumHits));
+  }
+
+  stopCount = async (optionClass) => {
+    const { updateScore, updateHits } = this.props;
+    if (optionClass === 'buttonOpt correctOpt') {
+      this.tempFunc();
+      const { sumScore, sumHits } = this.state;
+      updateScore(sumScore);
+      updateHits(sumHits);
+    }
+    /* this.setState({ count: 0 }); */
   }
 
   handleNextClick = () => {
@@ -61,6 +77,7 @@ class CardPergunta extends Component {
       wrongAnsClass: 'buttonOpt',
       nextButton: false,
       disabled: false,
+      count: 30,
     });
   }
 
@@ -117,11 +134,14 @@ CardPergunta.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   position: PropTypes.number.isRequired,
   updateScore: PropTypes.func.isRequired,
+  updateHits: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  incHits: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   updateScore: (userScore) => dispatch(playerScore(userScore)),
+  updateHits: (userhits) => dispatch(setHit(userhits)),
 });
 
 export default connect(null, mapDispatchToProps)(CardPergunta);
