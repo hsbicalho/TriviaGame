@@ -17,6 +17,7 @@ class CardPergunta extends Component {
       disabled: false,
       nextButton: false,
       difficulty,
+      sumScore: 0,
     };
   }
 
@@ -44,13 +45,26 @@ class CardPergunta extends Component {
       wrongAnsClass: 'buttonOpt wrongOpt',
       nextButton: true,
     }, () => this.stopCount(target.className));
+    const { count, difficulty } = this.state;
+    console.log(count, difficulty);
   }
 
-  stopCount = (optionClass) => {
+  tempFunc = () => {
+    const { difficulty, count } = this.state;
+    const newScore = calcScore(difficulty, count);
+    this.setState((prevState) => ({
+      sumScore: prevState.sumScore + newScore,
+    }));
+  }
+
+  stopCount = async (optionClass) => {
     const { updateScore } = this.props;
-    const { count, difficulty } = this.state;
-    if (optionClass === 'buttonOpt correctOpt') updateScore(calcScore(difficulty, count));
-    this.setState({ count: 0 });
+    if (optionClass === 'buttonOpt correctOpt') {
+      await this.tempFunc();
+      const { sumScore } = this.state;
+      updateScore(sumScore);
+    }
+    /* this.setState({ count: 0 }); */
   }
 
   handleNextClick = () => {
@@ -61,6 +75,7 @@ class CardPergunta extends Component {
       wrongAnsClass: 'buttonOpt',
       nextButton: false,
       disabled: false,
+      count: 30,
     });
   }
 

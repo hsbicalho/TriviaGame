@@ -47,9 +47,16 @@ class Jogo extends Component {
   }
 
   incIndex = () => {
-    this.setState((prevstate) => ({
-      qstIndex: prevstate.qstIndex + 1,
-    }));
+    const MAX_QUESTIONS = 4;
+    const { history } = this.props;
+    const { qstIndex } = this.state;
+    if (qstIndex === MAX_QUESTIONS) {
+      history.push('/feedback');
+    } else {
+      this.setState((prevstate) => ({
+        qstIndex: prevstate.qstIndex + 1,
+      }));
+    }
   }
 
   render() {
