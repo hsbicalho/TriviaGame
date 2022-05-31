@@ -27,7 +27,6 @@ class Header extends Component {
   }
 }
 
-// falta reducer e action
 const mapStateToProps = ({ player }) => ({
   name: player.name,
   score: player.score,
