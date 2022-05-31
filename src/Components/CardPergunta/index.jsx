@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './CardPergunta.css';
+import { connect } from 'react-redux';
+import calcScore from '../../Services/CalculateScore';
+import { playerScore } from '../../redux/actions';
 
 class CardPergunta extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { questObj } = this.props;
+    const { difficulty } = questObj;
     this.state = {
       correctAnsClass: 'buttonOpt',
       wrongAnsClass: 'buttonOpt',
       count: 30,
       disabled: false,
+      difficulty,
     };
   }
 
@@ -31,17 +37,17 @@ class CardPergunta extends Component {
     }
   }
 
-  handleclick = () => {
+  handleclick = ({ target }) => {
     this.setState({
       correctAnsClass: 'buttonOpt correctOpt',
       wrongAnsClass: 'buttonOpt wrongOpt',
-    });
-    this.stopCount();
+    }, () => this.stopCount(target.className));
   }
 
-  stopCount = () => {
-    const { count } = this.state;
-    console.log(count);
+  stopCount = (optionClass) => {
+    const { updateScore } = this.props;
+    const { count, difficulty } = this.state;
+    if (optionClass === 'buttonOpt correctOpt') updateScore(calcScore(difficulty, count));
     this.setState({ count: 0 });
   }
 
@@ -88,9 +94,14 @@ CardPergunta.propTypes = {
   }).isRequired,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   position: PropTypes.number.isRequired,
+  updateScore: PropTypes.func.isRequired,
 };
 
-export default CardPergunta;
+const mapDispatchToProps = (dispatch) => ({
+  updateScore: (userScore) => dispatch(playerScore(userScore)),
+});
+
+export default connect(null, mapDispatchToProps)(CardPergunta);
 
 // componentDidMount() {
 //   const { questObj: { question } } = this.props;
