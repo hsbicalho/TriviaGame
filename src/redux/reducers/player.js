@@ -1,10 +1,11 @@
-import { LOGIN, PLAYER_SCORE } from '../actions';
+import { LOGIN, PLAYER_SCORE, PLAYER_HITS } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   assertions: 0,
   score: 0,
   gravatarEmail: '',
+  hits: 0,
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {
@@ -13,6 +14,8 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     return { ...state, ...action.payload };
   case PLAYER_SCORE:
     return { ...state, score: action.score };
+  case PLAYER_HITS:
+    return { ...state, hits: action.hits };
   default:
     return state;
   }

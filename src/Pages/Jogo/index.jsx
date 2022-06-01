@@ -11,6 +11,7 @@ class Jogo extends Component {
       triviaOptions: [],
       qstIndex: 0,
       validToken: false,
+      stateHits: 0,
     };
   }
 
@@ -46,12 +47,17 @@ class Jogo extends Component {
     }
   }
 
+  incHits = () => {
+    const { stateHits } = this.state;
+    this.setState({ stateHits: stateHits + 1 });
+  }
+
   incIndex = () => {
     const MAX_QUESTIONS = 4;
     const { history } = this.props;
-    const { qstIndex } = this.state;
+    const { qstIndex, stateHits } = this.state;
     if (qstIndex === MAX_QUESTIONS) {
-      history.push('/feedback');
+      history.push({ pathname: '/feedback', state: { stateHits } });
     } else {
       this.setState((prevstate) => ({
         qstIndex: prevstate.qstIndex + 1,
@@ -69,6 +75,7 @@ class Jogo extends Component {
           options={ triviaOptions[qstIndex] }
           position={ qstIndex }
           nextQuestion={ this.incIndex }
+          incHits={ this.incHits }
         />) : ''}
       </div>
     );

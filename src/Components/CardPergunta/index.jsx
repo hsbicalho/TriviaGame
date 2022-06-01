@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './CardPergunta.css';
 import { connect } from 'react-redux';
 import calcScore from '../../Services/CalculateScore';
-import { playerScore } from '../../redux/actions';
+import { playerScore, setHit } from '../../redux/actions';
 
 class CardPergunta extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class CardPergunta extends Component {
       nextButton: false,
       difficulty,
       sumScore: 0,
+      sumHits: 0,
     };
   }
 
@@ -45,24 +46,25 @@ class CardPergunta extends Component {
       wrongAnsClass: 'buttonOpt wrongOpt',
       nextButton: true,
     }, () => this.stopCount(target.className));
-    const { count, difficulty } = this.state;
-    console.log(count, difficulty);
   }
 
   tempFunc = () => {
-    const { difficulty, count } = this.state;
+    const { difficulty, count, sumHits } = this.state;
+    const { incHits } = this.props;
     const newScore = calcScore(difficulty, count);
     this.setState((prevState) => ({
       sumScore: prevState.sumScore + newScore,
-    }));
+      sumHits: prevState.sumHits + 1,
+    }), () => incHits(sumHits));
   }
 
   stopCount = async (optionClass) => {
-    const { updateScore } = this.props;
+    const { updateScore, updateHits } = this.props;
     if (optionClass === 'buttonOpt correctOpt') {
-      await this.tempFunc();
-      const { sumScore } = this.state;
+      this.tempFunc();
+      const { sumScore, sumHits } = this.state;
       updateScore(sumScore);
+      updateHits(sumHits);
     }
     /* this.setState({ count: 0 }); */
   }
@@ -132,11 +134,14 @@ CardPergunta.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   position: PropTypes.number.isRequired,
   updateScore: PropTypes.func.isRequired,
+  updateHits: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  incHits: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   updateScore: (userScore) => dispatch(playerScore(userScore)),
+  updateHits: (userhits) => dispatch(setHit(userhits)),
 });
 
 export default connect(null, mapDispatchToProps)(CardPergunta);
