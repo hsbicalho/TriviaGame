@@ -61,7 +61,7 @@ class CardPergunta extends Component {
   stopCount = async (optionClass) => {
     const { updateScore, updateHits } = this.props;
     if (optionClass === 'buttonOpt correctOpt') {
-      this.tempFunc();
+      await this.tempFunc();
       const { sumScore, sumHits } = this.state;
       updateScore(sumScore);
       updateHits(sumHits);
