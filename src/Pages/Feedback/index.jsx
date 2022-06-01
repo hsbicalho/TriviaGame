@@ -3,8 +3,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../../Components/Header';
+import SavePlayerRank from '../../Services/SavePlayerRank';
 
 class Feedback extends Component {
+  componentDidMount = () => {
+    this.savePlayerInRanking();
+  }
+
+  savePlayerInRanking = () => {
+    const { location: { state: { stateHits } }, score, name } = this.props;
+    SavePlayerRank(name, stateHits, score);
+  }
+
   render() {
     const minScore = 3;
     const { location: { state: { stateHits } }, score } = this.props;
@@ -32,10 +42,12 @@ class Feedback extends Component {
 const mapStateToProps = ({ player }) => ({
   assertions: player.assertions,
   score: player.score,
+  name: player.name,
 });
 Feedback.propTypes = {
   stateHits: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   location: PropTypes.shape().isRequired,
+  name: PropTypes.string.isRequired,
 };
 export default connect(mapStateToProps)(Feedback);
