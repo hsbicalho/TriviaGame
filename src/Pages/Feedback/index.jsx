@@ -5,10 +5,16 @@ import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import Header from '../../Components/Header';
 import { SavePlayerRank } from '../../Services/PlayerRank';
+import { playerScore } from '../../redux/actions';
 
 class Feedback extends Component {
   componentDidMount = () => {
     this.savePlayerInRanking();
+  }
+
+  componentWillUnmount() {
+    const { updateScore } = this.props;
+    updateScore(0);
   }
 
   savePlayerInRanking = () => {
@@ -43,17 +49,25 @@ class Feedback extends Component {
     );
   }
 }
-const mapStateToProps = ({ player }) => ({
-  assertions: player.assertions,
-  score: player.score,
-  name: player.name,
-  email: player.gravatarEmail,
-});
+
 Feedback.propTypes = {
   stateHits: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   location: PropTypes.shape().isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  updateScore: PropTypes.func.isRequired,
 };
-export default connect(mapStateToProps)(Feedback);
+
+const mapStateToProps = ({ player }) => ({
+  assertions: player.assertions,
+  score: player.score,
+  name: player.name,
+  email: player.gravatarEmail,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateScore: (userScore) => dispatch(playerScore(userScore)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
