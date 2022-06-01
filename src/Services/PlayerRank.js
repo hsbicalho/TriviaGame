@@ -1,8 +1,9 @@
-const SavePlayerRank = (player, hits, score) => {
+const SavePlayerRank = (player, score, image, token) => {
   const NewPlayer = {
     player,
-    hits,
     score,
+    image,
+    token,
   };
   let oldStorage = [];
   if (localStorage.getItem('playersRank')) {
@@ -12,4 +13,10 @@ const SavePlayerRank = (player, hits, score) => {
   localStorage.setItem('playersRank', JSON.stringify(oldStorage));
 };
 
-export default SavePlayerRank;
+const ReceivePlayerRank = () => {
+  if (localStorage.getItem('playersRank')) {
+    return JSON.parse(localStorage.getItem('playersRank'));
+  }
+};
+
+export { SavePlayerRank, ReceivePlayerRank };
