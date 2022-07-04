@@ -36,9 +36,28 @@ body {
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
+  min-height: 30vh;
+}
+.jogo-page-game {
+  align-items: center;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
+  min-height: 70vh;
+}
+.jogo-page-feedback {
+  align-items: center;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
   min-height: 100vh;
 }
-
 .jogo-page-link {
   color: #61dafb;
 }

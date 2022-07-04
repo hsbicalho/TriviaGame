@@ -29,7 +29,9 @@ class Feedback extends Component {
     const minScore = 3;
     const { location: { state: { stateHits } }, score } = this.props;
     return (
-      <>
+      <div
+        className="jogo-page-feedback"
+      >
         <Header />
         { (stateHits < minScore)
           ? (<h1 data-testid="feedback-text">Could be better...</h1>)
@@ -45,7 +47,7 @@ class Feedback extends Component {
         <Link to="/ranking">
           <button data-testid="btn-ranking" type="button">Ranking</button>
         </Link>
-      </>
+      </div>
     );
   }
 }

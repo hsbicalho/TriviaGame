@@ -86,7 +86,9 @@ class CardPergunta extends Component {
       questObj: { category, question: title, correct_answer: correctAns } } = this.props;
     const { correctAnsClass, wrongAnsClass, nextButton, count, disabled } = this.state;
     return (
-      <div>
+      <div
+        className="jogo-page-game"
+      >
         <h2 data-testid="question-category">{category}</h2>
         <section>
           <h2 data-testid="question-text">{title}</h2>

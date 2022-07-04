@@ -14,7 +14,9 @@ class Header extends Component {
     const { name, score, email } = this.props;
     const imgUrl = this.convertEmailHash(email);
     return (
-      <header>
+      <header
+        className="jogo-page-header"
+      >
         <img
           src={ imgUrl }
           alt="profile"

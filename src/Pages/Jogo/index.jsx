@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import CardPergunta from '../../Components/CardPergunta';
 import Header from '../../Components/Header';
+import './Jogo.css';
 
 class Jogo extends Component {
   constructor() {
@@ -68,7 +69,9 @@ class Jogo extends Component {
   render() {
     const { triviaQuests, qstIndex, triviaOptions, validToken } = this.state;
     return (
-      <div>
+      <div
+        className="jogo-page"
+      >
         <Header />
         {validToken ? (<CardPergunta
           questObj={ triviaQuests[qstIndex] }
